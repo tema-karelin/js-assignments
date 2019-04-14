@@ -169,10 +169,13 @@ function isInsideCircle(circle, point) {
  *   'entente' => null
  */
 function findFirstSingleChar(str) {
-    for (let i = 0; i<str.length; i++) {
-        if (str.indexOf(str[i], i+1)===-1) {return str[i]};
+    let arr = str.split('').sort();
+    let arr2=[];
+    for (let i=0; i< arr.length; i++) {
+        // if (i==0) {arr2.push(arr[0])};
+        if (arr[i]!==arr[i+1]&&arr[i]!==arr[i-1]) {arr2.push(arr[i])};
     };
-    return null;
+    return (arr2.length != 0) ? arr2[0] : null;
 }
 
 
@@ -215,7 +218,9 @@ function getIntervalString(a, b, isStartIncluded, isEndIncluded) {
  * 'noon' => 'noon'
  */
 function reverseString(str) {
-    throw new Error('Not implemented');
+    let arr = str.split('');
+    return arr.reverse().join('');
+
 }
 
 
@@ -232,7 +237,10 @@ function reverseString(str) {
  *   34143 => 34143
  */
 function reverseInteger(num) {
-    throw new Error('Not implemented');
+    let str = '' + num;
+    let arr = str.split('');
+    return arr.reverse().join('');
+
 }
 
 
@@ -257,9 +265,24 @@ function reverseInteger(num) {
  *   4916123456789012 => false
  */
 function isCreditCardNumber(ccn) {
-    throw new Error('Not implemented');
+    let arr = ('' + ccn).split('');
+    let arr3;
+    if (arr.length%2 === 0) {
+        arr3 = arr.map((el,ind) => {
+            if (ind%2 === 0) {if (2*arr[ind]>9) {return 2*arr[ind]-9
+                            } else {return 2*arr[ind]}} else {return el};
+        });
+    };
+    if (arr.length%2 !== 0) {
+        arr3 = arr.map((el,ind) => {
+            if (ind%2 !== 0) {if (2*arr[ind]>9) {return 2*arr[ind]-9
+                            } else {return 2*arr[ind]}} else {return el};
+        });
+    };
+    // return arr3;
+    let sum = arr3.map(el => +el).reduce((a,b) => a+b);
+    return sum%10===0;
 }
-
 
 /**
  * Returns the digital root of integer:
@@ -276,7 +299,14 @@ function isCreditCardNumber(ccn) {
  *   165536 (1+6+5+5+3+6 = 26,  2+6 = 8) => 8
  */
 function getDigitalRoot(num) {
-    throw new Error('Not implemented');
+    let sum = num;
+    do {
+    let arr = ('' + sum).split('').map(el => +el);
+    console.log(arr);
+    sum = arr.reduce((a,b) => {return a+b});
+    console.log(sum);
+    } while (sum>9);
+    return sum;
 }
 
 
@@ -302,7 +332,18 @@ function getDigitalRoot(num) {
  *   '{[(<{[]}>)]}' = true 
  */
 function isBracketsBalanced(str) {
-    throw new Error('Not implemented');
+    let bracket=[];
+    let bracketsConfig = [['(', ')'], ['[', ']'], ['{', '}'], ['<', '>']];
+  for ( let i = 0; i < str.length; i++ ) {
+    for (let n=0; n < bracketsConfig.length; n++) {
+      if (str[i] == bracketsConfig[n][0] && str[i] != bracket[bracket.length - 1] || str[i] == bracketsConfig[n][0] && bracketsConfig[n][0] != bracketsConfig[n][1]) {bracket.push(str.charAt(i));} else {
+        if (bracket.length == 0 && str[i] == bracketsConfig[n][1]) {return false};
+        if ((str[i] == bracketsConfig[n][1]) && (bracket[bracket.length - 1] == bracketsConfig[n][0])) {bracket.pop();};
+        };
+    };
+          
+  };
+  if (bracket.length == 0) {return true} else {return false};
 }
 
 
@@ -361,8 +402,23 @@ function timespanToHumanString(startDate, endDate) {
  *    365, 4  => '11231'
  *    365, 10 => '365'
  */
-function toNaryString(num, n) {
-    throw new Error('Not implemented');
+function toNaryString(input, n) {
+    let source = '0123456789';
+    let decimal = 0;
+    let arrTarget = [];
+    for (let j=0; j<n; j++) {arrTarget.push(j)};
+    let target = arrTarget.join('');
+  for (let i=0; i<input.length; i++) {
+    decimal += source.indexOf(input[input.length-1-i])*Math.pow(source.length, i);
+  };
+  let NewNumberArr = [];
+  while (decimal>=target.length) {
+    NewNumberArr.push(target[decimal%target.length]);
+    decimal = Math.floor(decimal/target.length);
+  };
+  NewNumberArr.push(target[decimal%target.length]);
+  let NewNumber = NewNumberArr.reverse().join('');
+  return '' + NewNumber;
 }
 
 
