@@ -404,21 +404,20 @@ function timespanToHumanString(startDate, endDate) {
  */
 function toNaryString(input, n) {
     let source = '0123456789';
-    let decimal = 0;
     let arrTarget = [];
     for (let j=0; j<n; j++) {arrTarget.push(j)};
+    console.log(arrTarget);
     let target = arrTarget.join('');
-  for (let i=0; i<input.length; i++) {
-    decimal += source.indexOf(input[input.length-1-i])*Math.pow(source.length, i);
-  };
-  let NewNumberArr = [];
-  while (decimal>=target.length) {
+    console.log(target);
+    let decimal = input;
+    let NewNumberArr = [];
+    while (decimal>=target.length) {
     NewNumberArr.push(target[decimal%target.length]);
     decimal = Math.floor(decimal/target.length);
-  };
-  NewNumberArr.push(target[decimal%target.length]);
-  let NewNumber = NewNumberArr.reverse().join('');
-  return '' + NewNumber;
+    };
+    NewNumberArr.push(target[decimal%target.length]);
+    let NewNumber = NewNumberArr.reverse().join('');
+    return '' + NewNumber;
 }
 
 
