@@ -22,7 +22,7 @@
  *    'Sun, 17 May 1998 03:00:00 GMT+01' => Date()
  */
 function parseDataFromRfc2822(value) {
-   throw new Error('Not implemented');
+   return Date.parse(value);
 }
 
 /**
@@ -37,7 +37,7 @@ function parseDataFromRfc2822(value) {
  *    '2016-01-19T08:07:37Z' => Date()
  */
 function parseDataFromIso8601(value) {
-   throw new Error('Not implemented');
+   return Date.parse(value);
 }
 
 
@@ -94,9 +94,13 @@ function timeSpanToString(startDate, endDate) {
  *    Date.UTC(2016,3,5,21, 0) => Math.PI/2
  */
 function angleBetweenClockHands(date) {
-    throw new Error('Not implemented');
+   let kuku = new Date(date);
+   let hours = kuku.getUTCHours();
+   let minutes = kuku.getMinutes();
+   if (hours>=12) {hours = hours -12};
+   let time = hours*60 + minutes;
+   return hours%2==0 ? Math.PI*(((2*6-1)*time/360)%2) : Math.PI*(((2*6-1)*time/360)%1);
 }
-
 
 module.exports = {
     parseDataFromRfc2822: parseDataFromRfc2822,
